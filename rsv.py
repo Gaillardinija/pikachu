@@ -95,9 +95,9 @@ class RSV:
         for i in range(ws.nrows):
             for j in range(ws.ncols):
                 if ws.cell_value(i, coll_buy) == 'покупка' and ws.cell_value(i, coll_rd) > 0 and ws.cell_value(i, coll_s_rsv) > 0:
-                    rsv_buy_graf.append(ws.cell_value(i, coll_s_rsv)/ws.cell_value(i, coll_v_rsv))
+                    rsv_buy_graf.append(ws.cell_value(i, 0), ws.cell_value(i, 3), ws.cell_value(i, coll_s_rsv)/ws.cell_value(i, coll_v_rsv))
                 if ws.cell_value(i, coll_buy) == 'продажа':
-                    rsv_sell_graf.append(ws.cell_value(i, coll_s_rsv)/ws.cell_value(i, coll_v_rsv))
+                    rsv_sell_graf.append(ws.cell_value(i, 0), ws.cell_value(i, 3), ws.cell_value(i, coll_s_rsv)/ws.cell_value(i, coll_v_rsv))
         
              
         
