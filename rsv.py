@@ -87,17 +87,22 @@ class RSV:
                 buy_s_rd += value[5]
             print(buy_v_rsv, buy_s_rsv, sell_v_rsv, sell_s_rsv, buy_v_rd, buy_s_rd)
             
-    def graf_price(self):
-        global rsv_buy_graf
-        global rsv_sell_graf
-        rsv_buy_graf = []
-        rsv_sell_graf = []
-        for i in range(ws.nrows):
-            for j in range(ws.ncols):
-                if ws.cell_value(i, coll_buy) == 'покупка' and ws.cell_value(i, coll_rd) > 0 and ws.cell_value(i, coll_s_rsv) > 0:
-                    rsv_buy_graf.append(ws.cell_value(i, 0), ws.cell_value(i, 3), ws.cell_value(i, coll_s_rsv)/ws.cell_value(i, coll_v_rsv))
-                if ws.cell_value(i, coll_buy) == 'продажа':
-                    rsv_sell_graf.append(ws.cell_value(i, 0), ws.cell_value(i, 3), ws.cell_value(i, coll_s_rsv)/ws.cell_value(i, coll_v_rsv))
+    def graf_price_rd(self):
+        for consumer in self.gtp:
+            for i in range(ws.nrows):
+                for j in range(ws.ncols):
+                    if ws.cell_value(i, j) == consumer and ws.cell_value(i, coll_buy) == 'покупка' and ws.cell_value(i, coll_rd) > 0 and ws.cell_value(i, coll_s_rsv) > 0:
+                        gtp[consumer].append(['buy', ws.cell_value(i, 0), ws.cell_value(i, 3), ws.cell_value(i, coll_s_rsv)/ws.cell_value(i, coll_v_rsv)])
+                    if ws.cell_value(i, j) == consumer and ws.cell_value(i, coll_buy) == 'продажа':
+                        gtp[consumer].append(['sell', ws.cell_value(i, 0), ws.cell_value(i, 3), ws.cell_value(i, coll_s_rsv)/ws.cell_value(i, coll_v_rsv)])
+        
+    def graf_price_rsv(self):
+        for consumer in self.gtp:
+            for i in range(ws.nrows):
+                for j in range(ws.ncols):
+                    if ws.cell_value(i, j) == consumer and ws.cell_value(i, coll_buy) == 'покупка' and ws.cell_value(i, coll_rd) == 0 and ws.cell_value(i, coll_s_rsv) > 0:
+                        gtp[consumer].append(['buy', ws.cell_value(i, 0), ws.cell_value(i, 3), ws.cell_value(i, coll_s_rsv)/ws.cell_value(i, coll_v_rsv)])
+
         
              
         
@@ -114,5 +119,6 @@ for filename in os.listdir(destination_folder):
         a.rd()
         a.avg_price()
         a.sum_proverka()
-        a.graf_price()                    
+        a.graf_price_rd
+        a.graf_price_rsv()                    
                     
