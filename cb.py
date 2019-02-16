@@ -10,7 +10,7 @@ link2 = '?date_req=' + '%s'
 Norwegian = []
 
 import pandas as pd
-datelist = pd.date_range(pd.datetime(2019, 1, 1), pd.datetime.today()).tolist()
+datelist = pd.date_range(pd.datetime(2018, 1, 1), pd.datetime.today()).tolist()
 for i in datelist:
     page = requests.get(link1 + link2 % (i.strftime("%d.%m.%Y")))
     soup = BeautifulSoup(page.text, 'html.parser') # читаем эту страницу
@@ -22,10 +22,41 @@ for i in datelist:
     
 
 
+# https://ru.coursera.org/lecture/python-for-web/obzor-mietodov-modulia-beautiful-soup-EaPtE
+from selenium import webdriver 
+import bs4, time 
+
+driver = webdriver.Chrome() 
+driver.get("https://www.oslobors.no/ob_eng/markedsaktivitet/#/details/C:PBROUSDBR%5CSP.IDCENE/overview") 
+driver.maximize_window() 
+# sleep is given so that JS populate data in this time 
+time.sleep(10) 
+pSource= driver.page_source 
+
+soup = bs4.BeautifulSoup(pSource, "html.parser") 
+
+Property=soup.findAll('div',{'class':'col-xs-5 col-sm-4 col-md-4 col-lg-3 statement-field-name indent-2'}) 
+for P in Property: 
+    if 'Property' in P.text.strip(): 
+     print P.text 
+
+x=soup.find("a",{"ng-click":"toggleFundData('Property, Plant & Equipment',SDCol.restatedString==='restated',true)"}) 
+print x.text 
+выход за то же самое:            
+            
+link = 'https://www.oslobors.no/ob_eng/markedsaktivitet/#/details/C:PBROUSDBR%5CSP.IDCENE/overview'
+page = requests.get(link)
+soup = BeautifulSoup(page.text, 'html.parser') # читаем эту страницу
+l = soup.find_all('div')
+soup.div.ui-view
+
+
+
 link = 'https://www.cbr.ru/currency_base/daily/?date_req=19.01.2019' 
 page = requests.get(link)
-soup = BeautifulSoup(page.text, 'html.parser')
-l = soup.find_all('td')
+soup = BeautifulSoup(page.text, 'html')
+soup.prettify()
+l = soup.find_all('div', {"class": "row"})
 for l1 in l:
     a = l1.text
     
