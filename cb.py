@@ -26,7 +26,7 @@ for i in datelist:
 from selenium import webdriver 
 import bs4, time 
 
-driver = webdriver.Chrome() 
+driver = webdriver.Firefox() 
 driver.get("https://www.oslobors.no/ob_eng/markedsaktivitet/#/details/C:PBROUSDBR%5CSP.IDCENE/overview") 
 driver.maximize_window() 
 # sleep is given so that JS populate data in this time 
@@ -34,6 +34,8 @@ time.sleep(10)
 pSource= driver.page_source 
 
 soup = bs4.BeautifulSoup(pSource, "html.parser") 
+
+
 
 Property=soup.findAll('div',{'class':'col-xs-5 col-sm-4 col-md-4 col-lg-3 statement-field-name indent-2'}) 
 for P in Property: 
